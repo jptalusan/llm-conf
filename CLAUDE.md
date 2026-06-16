@@ -20,5 +20,8 @@ By default, do **not** budget — use the session's normal model and effort; qua
 ## 6. Verify with a fleet, on request
 For coding / PR / issue fixes, run `/verify-fleet` to spawn independent testers and reviewers (fresh contexts, no groupthink) and synthesize their verdicts. Not automatic — invoke it.
 
+## 7. Close with a report
+After an implement + test + review cycle, end with the succinct `report` format: what changed, test result, review verdict, follow-ups, and a count of agents involved (by role). Dense, not chatty — no information dropped.
+
 ---
 *Behavioral principles 1–4 adapted from Andrej Karpathy's LLM-coding guidelines (MIT).*

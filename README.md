@@ -14,7 +14,8 @@ llm-conf/
 │   ├── plan/SKILL.md          # /plan          — plan before coding
 │   ├── review/SKILL.md        # /review        — single structured review pass
 │   ├── verify-fleet/SKILL.md  # /verify-fleet  — 2 testers + 2 reviewers, independent, then synthesize
-│   └── model-routing/SKILL.md # /model-routing — conserve usage only when near a limit
+│   ├── model-routing/SKILL.md # /model-routing — conserve usage only when near a limit
+│   └── report/SKILL.md        # /report        — succinct end-of-task summary + agent count
 └── agents/                    # subagents with a model pinned per role
     ├── analyst.md             # Haiku  — text/language analysis, summarize, classify, scan
     ├── tester.md              # Sonnet — writes/runs tests, tries to break the change
@@ -61,6 +62,7 @@ Instead of symlinking, install the skills via the bundled `.claude-plugin/plugin
 | `/review` | Quick focused review pass on the current diff/PR. |
 | `/verify-fleet` | After a coding/PR/issue fix you want high assurance on — spawns 2 independent testers + 2 reviewers, then synthesizes a ship / don't-ship verdict. |
 | `/model-routing` | Only when near a usage limit — enter conserve mode to stretch remaining usage. |
+| `/report` | Close out a task — dense summary of changes, tests, review verdict, follow-ups, and agent count. Auto-fires at the end of implement+test+review work. |
 
 You can also spawn the subagents directly by name (`analyst`, `tester`, `reviewer`); each runs on its pinned model.
 

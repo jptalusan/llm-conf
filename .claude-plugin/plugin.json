@@ -9,6 +9,7 @@
     "./skills/plan",
     "./skills/review",
     "./skills/verify-fleet",
-    "./skills/model-routing"
+    "./skills/model-routing",
+    "./skills/report"
   ]
 }
