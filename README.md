@@ -56,15 +56,17 @@ Instead of symlinking, install the skills via the bundled `.claude-plugin/plugin
 
 ## Usage
 
-| Command | When |
-|---|---|
-| `/plan` | Before any non-trivial change — assumptions + a verifiable step plan first. |
-| `/review` | Quick focused review pass on the current diff/PR. |
-| `/verify-fleet` | After a coding/PR/issue fix you want high assurance on — spawns 2 independent testers + 2 reviewers, then synthesizes a ship / don't-ship verdict. |
-| `/model-routing` | Only when near a usage limit — enter conserve mode to stretch remaining usage. |
-| `/report` | Close out a task — dense summary of changes, tests, review verdict, follow-ups, and agent count. Auto-fires at the end of implement+test+review work. |
+You don't have to type the slash command — skills auto-trigger when your request matches their description. The command is just the explicit shortcut. Example phrasings that fire each one:
 
-You can also spawn the subagents directly by name (`analyst`, `tester`, `reviewer`); each runs on its pinned model.
+| Command | When | Or just say… |
+|---|---|---|
+| `/plan` | Before any non-trivial change — assumptions + a verifiable step plan first. | "Plan out how you'd add X before writing code." · "What's your approach here — show me the changes first." · "Don't code yet, draft a plan." |
+| `/review` | Quick focused review pass on the current diff/PR. | "Review my changes." · "Look over this diff." · "Give the current changes a once-over." |
+| `/verify-fleet` | After a coding/PR/issue fix you want high assurance on — spawns 2 independent testers + 2 reviewers, then synthesizes a ship / don't-ship verdict. | "Spin up some independent testers and reviewers for this fix." · "Verify this with a few independent agents." · "Get a couple testers and reviewers on this before we ship." |
+| `/model-routing` | Only when near a usage limit — enter conserve mode to stretch remaining usage. | "I'm running low on usage — conserve." · "We're near the weekly limit, dial it back." · "Stretch what's left of my quota." |
+| `/report` | Close out a task — dense summary of changes, tests, review verdict, follow-ups, and agent count. Auto-fires at the end of implement+test+review work. | "Wrap up with a summary." · "Give me a quick rundown of what changed and how many agents were involved." · "Close this out." |
+
+You can also spawn the subagents directly by name (`analyst`, `tester`, `reviewer`); each runs on its pinned model — e.g. "have an analyst summarize these logs", "send a reviewer over this module".
 
 ### Model routing & cost
 **By default there is no budgeting** — Claude uses its normal model and effort. The only standing rule is the per-role model pins on the subagents (Haiku/Sonnet/Opus), which are role defaults, not cost-cutting. Conserve mode (downshift every tier one notch + shrink the verify fleet) kicks in **only when you're near your 5-hour or weekly limit** — triggered by you or by `/usage` showing you're close. There's no reliable in-session read of remaining quota, so it isn't fully automatic. See `skills/model-routing/SKILL.md`.
