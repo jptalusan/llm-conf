@@ -1,31 +1,28 @@
 ---
 name: model-routing
-description: Match model tier to task difficulty when spawning subagents, and conserve usage when budget is low. Use whenever deciding which model an agent or subtask should run on, or when the user wants to stretch remaining usage.
+description: Conserve usage only when near a 5-hour or weekly limit by downshifting model tiers and shrinking agent fleets. By default does nothing — Claude uses its normal model and effort. Use when the user asks to conserve or /usage shows you are close to a limit.
 ---
 
 # Model routing
 
-Goal: don't burn the most expensive model on cheap work, and downshift when usage is running low.
+**Default: no budgeting.** Use the session's normal model and effort (your `settings.json` defaults). Do not proactively downgrade — quality first. The one standing exception is the pinned-model subagents (`analyst`→Haiku, `tester`→Sonnet, `reviewer`→Opus); that's a role default, not budgeting, and it applies in every mode.
 
-## Default tiers (by task difficulty)
-| Task | Model | Effort |
-|---|---|---|
-| Summarize, classify, extract, scan logs/output, language/text analysis, mechanical edits | **Haiku** | low/med |
-| Standard implementation, writing/running tests, routine refactors | **Sonnet** | med |
-| Hard reasoning, deep review, security, architecture, gnarly debugging, synthesis | **Opus 4.8** | high |
+Conserve mode is the only behavior this skill changes, and it activates **only near a usage limit**.
 
-Prefer the pinned-model subagents — `analyst` (Haiku), `tester` (Sonnet), `reviewer` (Opus) — so the choice is automatic. For ad-hoc `Agent`/workflow spawns, pass `model`/`effort` explicitly per this table.
+## When to enter conserve mode
+Trigger ONLY when the 5-hour or weekly usage limit is genuinely close:
+- the user asks to conserve, or
+- `/usage` shows you're near a limit.
 
-## Checking usage
-There is **no reliable programmatic read of remaining weekly/account quota** from inside a session — don't pretend a number you can't see. What you *can* observe:
-- **Session cost & context %** — run `/cost`, or read the statusline (it surfaces `cost.total_cost_usd` and context-window %).
-- **Account/plan usage** — run `/usage` (interactive); ask the user to report it if you need the number.
-- **Workflows only** — the `budget` global exposes `spent()` / `remaining()` against a per-turn target.
+There is **no reliable in-session read of remaining quota** — don't guess a number. Check `/usage` (account) or `/cost` (session), or ask the user to report it. Do **not** enter conserve mode for ordinary cost-consciousness — only when a limit is actually near.
 
-## Conserve mode
-Trigger when: the user asks to conserve, `/usage` shows you're near a limit, or session `/cost` is high relative to value delivered. Then:
-- Drop every tier by one: Opus→Sonnet, Sonnet→Haiku. Keep Opus only for genuinely critical reasoning.
-- Shrink fleets (`verify-fleet` 2+2 → 1+1).
-- Default ad-hoc subagents to Haiku unless the task clearly needs more.
-
-Announce when you enter or leave conserve mode so the user knows the quality/cost tradeoff in effect.
+## What conserve mode does
+- **Downshift every tier one notch:** Opus→Sonnet, Sonnet→Haiku. Keep Opus only for genuinely critical reasoning.
+- **Route by task difficulty:**
+  | Task | Conserve model |
+  |---|---|
+  | Summarize, classify, extract, scan, language/text analysis, mechanical edits | Haiku |
+  | Standard implementation, writing/running tests, routine refactors | Haiku (Sonnet only if it stalls) |
+  | Hard reasoning, deep review, security, architecture | Sonnet (Opus only if critical) |
+- **Shrink fleets:** `verify-fleet` 2+2 → 1+1.
+- **Announce** when you enter or leave conserve mode so the user knows the quality/cost tradeoff in effect.

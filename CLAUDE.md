@@ -14,8 +14,8 @@ Touch only what you must. Don't refactor what isn't broken, don't restyle adjace
 ## 4. Goal-driven execution
 Turn tasks into verifiable goals ("fix the bug" → "write a failing test, then make it pass"). State a short plan with a verify step per item, then loop until verified.
 
-## 5. Spend the cheap model first
-When spawning subagents, match model to task difficulty — don't default everything to the most expensive model. Simple text/language work (summarize, classify, scan, extract) → Haiku. Standard implementation/testing → Sonnet. Hard reasoning, deep review, security, architecture, gnarly debugging → Opus + high effort. See the `model-routing` skill. Prefer the pinned-model subagents (`analyst`, `tester`, `reviewer`) so the choice is made for you.
+## 5. Conserve only when near a usage limit
+By default, do **not** budget — use the session's normal model and effort; quality first. Only when you're near your 5-hour or weekly usage limit, enter conserve mode: downshift model tiers and shrink agent fleets. See the `model-routing` skill. (The pinned-model subagents — `analyst`/`tester`/`reviewer` — keep their role-appropriate models regardless; that's a role default, not budgeting.)
 
 ## 6. Verify with a fleet, on request
 For coding / PR / issue fixes, run `/verify-fleet` to spawn independent testers and reviewers (fresh contexts, no groupthink) and synthesize their verdicts. Not automatic — invoke it.
