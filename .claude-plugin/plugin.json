@@ -1,0 +1,14 @@
+{
+  "name": "llm-conf",
+  "description": "Streamlined personal LLM operating config: terse behavioral rules, planning/review skills, an independent tester+reviewer verification fleet, and difficulty-based model routing.",
+  "version": "0.1.0",
+  "author": { "name": "jose" },
+  "license": "MIT",
+  "keywords": ["claude-code", "skills", "agents", "model-routing", "verification"],
+  "skills": [
+    "./skills/plan",
+    "./skills/review",
+    "./skills/verify-fleet",
+    "./skills/model-routing"
+  ]
+}
