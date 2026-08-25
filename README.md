@@ -15,7 +15,8 @@ llm-conf/
 │   ├── review/SKILL.md        # /review        — single structured review pass
 │   ├── verify-fleet/SKILL.md  # /verify-fleet  — 2 testers + 2 reviewers, independent, then synthesize
 │   ├── model-routing/SKILL.md # /model-routing — conserve usage only when near a limit
-│   └── report/SKILL.md        # /report        — succinct end-of-task summary + agent count
+│   ├── report/SKILL.md        # /report        — succinct end-of-task summary + agent count
+│   └── markitdown/SKILL.md   # /markitdown    - read PDF/Office/image/audio/video locally
 └── agents/                    # subagents with a model pinned per role
     ├── analyst.md             # Haiku  — text/language analysis, summarize, classify, scan
     ├── tester.md              # Sonnet — writes/runs tests, tries to break the change
@@ -65,6 +66,7 @@ You don't have to type the slash command — skills auto-trigger when your reque
 | `/verify-fleet` | After a coding/PR/issue fix you want high assurance on — spawns 2 independent testers + 2 reviewers, then synthesizes a ship / don't-ship verdict. | "Spin up some independent testers and reviewers for this fix." · "Verify this with a few independent agents." · "Get a couple testers and reviewers on this before we ship." |
 | `/model-routing` | Only when near a usage limit — enter conserve mode to stretch remaining usage. | "I'm running low on usage — conserve." · "We're near the weekly limit, dial it back." · "Stretch what's left of my quota." |
 | `/report` | Close out a task — dense summary of changes, tests, review verdict, follow-ups, and agent count. Auto-fires at the end of implement+test+review work. | "Wrap up with a summary." · "Give me a quick rundown of what changed and how many agents were involved." · "Close this out." |
+| `/markitdown` | Reading a file that isn't plain text: PDF, Word, PowerPoint, Excel, images, audio, video, EPUB, .msg, ZIP. Fully local toolchain, no cloud OCR or speech APIs. | "Read this PDF." · "What's in this deck?" · "Transcribe this talk." · "OCR this scan." |
 
 You can also spawn the subagents directly by name (`analyst`, `tester`, `reviewer`); each runs on its pinned model — e.g. "have an analyst summarize these logs", "send a reviewer over this module".
 
