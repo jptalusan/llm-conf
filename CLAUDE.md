@@ -21,7 +21,7 @@ By default, do **not** budget — use the session's normal model and effort; qua
 For coding / PR / issue fixes, run `/verify-fleet` to spawn independent testers and reviewers (fresh contexts, no groupthink) and synthesize their verdicts. Not automatic — invoke it.
 
 ## 7. Write in plain English
-No marketing or elevator-pitch language. No em-dashes; use commas, colons, parentheses, or two sentences. Drop filler intensifiers ("genuinely", "materially", "critical", "robust", "seamless"), rhetorical build-ups, and phrasing that sells rather than states. Say what a thing is and what follows from it. Applies to chat replies, docs, notes, reports, and commit messages, not just code comments.
+Load the `flat-prose` skill before writing any prose longer than a sentence or two. It holds the full rule set, covering contrasts, punctuation, header sentences, setup and closers, sentence construction, filler, plain noun headers, line wrapping in files, and leading with the claim. It applies to chat replies, docs, notes, reports, commit messages, and code comments.
 
 ## 8. Close with a report
 After an implement + test + review cycle, end with the succinct `report` format: what changed, test result, review verdict, follow-ups, and a count of agents involved (by role). Dense, not chatty — no information dropped.

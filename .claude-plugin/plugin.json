@@ -1,6 +1,6 @@
 {
   "name": "llm-conf",
-  "description": "Streamlined personal LLM operating config: terse behavioral rules, planning/review skills, an independent tester+reviewer verification fleet, and difficulty-based model routing.",
+  "description": "Streamlined personal LLM operating config: terse behavioral rules, a flat-prose writing standard, planning/review skills, an independent tester+reviewer verification fleet, and difficulty-based model routing.",
   "version": "0.1.0",
   "author": { "name": "jose" },
   "license": "MIT",
@@ -11,6 +11,7 @@
     "./skills/verify-fleet",
     "./skills/model-routing",
     "./skills/report",
-    "./skills/markitdown"
+    "./skills/markitdown",
+    "./skills/flat-prose"
   ]
 }
