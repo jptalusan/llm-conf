@@ -1,11 +1,11 @@
 ---
 name: flat-prose
-description: Write straight, succinct prose with no contrasts, no header sentences, no colons/semicolons/em-dashes, plain noun headers, and one line per paragraph in files. Use for ALL user-facing text - chat replies, reports, summaries, docs, READMEs, commit messages, PR descriptions, code comments. Load before writing any prose of more than a sentence or two.
+description: Write straight, succinct prose with no contrasts, no header sentences, no colons/semicolons/em-dashes, no jargon, plain noun headers, and one line per paragraph in files. Use for ALL user-facing text - chat replies, reports, summaries, docs, READMEs, commit messages, PR descriptions, code comments. Load before writing any prose of more than a sentence or two.
 ---
 
 # Flat prose
 
-Nine rules. CLAUDE.md section 7 points here for the full standard. These override the
+Eleven rules. CLAUDE.md section 7 points here for the full standard. These override the
 `write-in-prose` memory wherever the two conflict.
 
 ## 1. No contrasts
@@ -158,10 +158,58 @@ The same test applies to a pointer at another document. "All six are described w
 references in `other.md`" is worth a sentence only if the reader could not have guessed it, and a
 doc that already names `other.md` in its opening has said it once.
 
+## 10. No rhetorical patterning
+
+Repetition and symmetry are decoration. A sentence built for cadence is carrying weight that is not information.
+
+**Tricolons and anaphora.** "Two files, two services, two systems" repeats a structure for rhythm. The second and third beats say nothing the first did not.
+
+**Teaser clauses.** "...and what the arrival times show" promises a fact instead of stating one. Say what they show, or cut the clause.
+
+**What/why and where/how pairings.** "What happens to a request, and why the rate misleads" is two half-sentences wearing one sentence.
+
+| Instead of | Write |
+|---|---|
+| Two files, two services, two systems. Neither shares a key with the other. | The two files come from different systems and share no key. |
+| 113,923 boardings across 19 routes, and what the arrival times show. | 113,923 boardings across 19 routes, running 29 seconds late at the median. |
+| Where the anchors sit, and how far riders travel to reach them. | Grocery stores and transit hubs, and how often Lift trips end at each. |
+| Four source files behind every number in this deck. | The four source files and where each came from. |
+
+Read the draft flat, with no cadence. Anything that only worked with cadence goes.
+
+## 11. No jargon
+
+Name the thing in words the reader already has. A term is jargon when it compresses a decision, a filter or a column into a label the reader has to look up before the sentence means anything.
+
+**Borrowed shorthand.** "Gated on", "load-controlled", "endogenous", "the masked variant". Each one names a choice without saying what the choice was.
+
+**Identifiers used as prose.** A sentence built around `interior_gaps = 0` or `apc_plausible` makes the reader read code to read English. Say what the condition means, then name it so they can find it.
+
+**Invented compounds.** "The load-controlled variant" and "the trip-layer estimator" read as established terms that do not exist outside your own draft.
+
+| Instead of | Write |
+|---|---|
+| Trips are gated on a single driver. | Only trips with one driver for the whole trip are kept. |
+| Requires zero interior gaps. | Every stop in the middle of the trip needs both an arrival and a departure time. The count of missing ones is `interior_gaps`. |
+| The load-controlled variant. | Holding passengers fixed. |
+| Leader ordering is endogenous. | A driver who runs fast overtakes, which changes who their own leader is. |
+| Masked mode keeps the grain. | Every row is kept and the APC columns are emptied where the agency rejected them. |
+
+The test is whether the reader could act on the sentence without looking anything up.
+
+A term that earns its place gets defined in the same sentence it first appears in, then used freely after that. Keep the identifier alongside the plain wording, since the reader still has to find the column in the code.
+
+Field-standard words are not jargon. "Dwell", "headway" and "adherence" are what the domain calls those things, and replacing them with a description loses precision.
+
 ## Check
 
 Grep your own draft for `;`, `—`, `, not `, ` rather than `, ` while `. Each hit is a rule 1 or 2
 violation until proven otherwise. Then reread every header on its own and cut it back to a noun.
+
+Reread the draft for every term a reader outside the work would stop on. Each one is a rule 11 violation until you have either replaced it or defined it in place.
+
+Subtitles, captions and section framings need the same pass as body text. They are short and read
+like labels, which is exactly where a contrast or a tricolon survives unnoticed.
 
 For a file, check rule 8 as well. No paragraph should span two lines, so `awk 'length > 200'`
 finding hits is the healthy result.
