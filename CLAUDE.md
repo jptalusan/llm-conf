@@ -29,5 +29,11 @@ After an implement + test + review cycle, end with the succinct `report` format:
 ## 9. Correct by design
 Load the `correct-by-design` skill when designing or writing non-trivial code in any language. It covers parsing instead of validating, unrepresentable invalid states, sending every change back through the checks, checking at trust boundaries and trusting inside them, failing early and specifically, never losing data silently, checking the outside world's answers, atomic changes, honest reruns, tests that prove every check fires, and logging at DEBUG by default to `./log/` with the level switchable from outside. It pairs with ponytail, which never removes a boundary check.
 
+## 10. Checkpoint before compaction
+Load the `checkpoint` skill before any compaction, when the context nears 80%, when the user may step away or lose connection, and after launching a long-running job. It writes the newest state to `session.md` at the repo root, updates plans and memory, snapshots edited artifacts, and commits, so a fresh context can resume without the conversation.
+
+## Compact Instructions
+When compacting, keep: the user's goal and preferences stated this session, every finding with its source file, each running job with its machine, log path and completion marker, open decisions awaiting the user, and the next steps in order. Point to `session.md` and the project memory as the record. Drop tool output and file contents that are already on disk.
+
 ---
 *Behavioral principles 1–4 adapted from Andrej Karpathy's LLM-coding guidelines (MIT).*

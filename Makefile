@@ -1,4 +1,4 @@
-.PHONY: install uninstall clean status
+.PHONY: install uninstall clean status compaction compaction-uninstall
 
 install:        ## Symlink skills, subagents, and CLAUDE.md into ~/.claude
 	@./install.sh
@@ -11,3 +11,9 @@ status:         ## Show which of this repo's links are live in ~/.claude
 	echo "skills:"; ls -l "$$CLAUDE_DIR/skills" 2>/dev/null | grep -- '-> ' || echo "  (none)"; \
 	echo "agents:"; ls -l "$$CLAUDE_DIR/agents" 2>/dev/null | grep -- '-> ' || echo "  (none)"; \
 	echo "CLAUDE.md:"; ls -l "$$CLAUDE_DIR/CLAUDE.md" 2>/dev/null || echo "  (none)"
+
+compaction:     ## Opt-in: auto-compact at 80% and reload session.md after compaction (edits ~/.claude/settings.json, keeps a .bak)
+	@python3 hooks/install-compaction.py
+
+compaction-uninstall: ## Remove the compaction settings added by `make compaction`
+	@python3 hooks/install-compaction.py --uninstall
