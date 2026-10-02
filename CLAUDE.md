@@ -26,5 +26,8 @@ Load the `flat-prose` skill before writing any prose longer than a sentence or t
 ## 8. Close with a report
 After an implement + test + review cycle, end with the succinct `report` format: what changed, test result, review verdict, follow-ups, and a count of agents involved (by role). Dense, not chatty — no information dropped.
 
+## 9. Correct by design
+Load the `correct-by-design` skill when designing or writing non-trivial code in any language. It covers parsing instead of validating, unrepresentable invalid states, sending every change back through the checks, checking at trust boundaries and trusting inside them, failing early and specifically, never losing data silently, checking the outside world's answers, atomic changes, honest reruns, tests that prove every check fires, and logging at DEBUG by default to `./log/` with the level switchable from outside. It pairs with ponytail, which never removes a boundary check.
+
 ---
 *Behavioral principles 1–4 adapted from Andrej Karpathy's LLM-coding guidelines (MIT).*

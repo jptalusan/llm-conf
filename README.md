@@ -17,7 +17,8 @@ llm-conf/
 │   ├── model-routing/SKILL.md # /model-routing — conserve usage only when near a limit
 │   ├── report/SKILL.md        # /report        — succinct end-of-task summary + agent count
 │   ├── markitdown/SKILL.md   # /markitdown    - read PDF/Office/image/audio/video locally
-│   └── flat-prose/SKILL.md   # /flat-prose    - straight prose, no contrasts, colons, or pitch headers; one line per paragraph
+│   ├── flat-prose/SKILL.md   # /flat-prose    - straight prose, no contrasts, colons, or pitch headers; one line per paragraph
+│   └── correct-by-design/SKILL.md # /correct-by-design - invalid data cannot exist past where it enters; loud, specific failures; DEBUG logs to ./log
 └── agents/                    # subagents with a model pinned per role
     ├── analyst.md             # Haiku  — text/language analysis, summarize, classify, scan
     ├── tester.md              # Sonnet — writes/runs tests, tries to break the change
@@ -69,6 +70,7 @@ You don't have to type the slash command — skills auto-trigger when your reque
 | `/report` | Close out a task — dense summary of changes, tests, review verdict, follow-ups, and agent count. Auto-fires at the end of implement+test+review work. | "Wrap up with a summary." · "Give me a quick rundown of what changed and how many agents were involved." · "Close this out." |
 | `/markitdown` | Reading a file that isn't plain text: PDF, Word, PowerPoint, Excel, images, audio, video, EPUB, .msg, ZIP. Fully local toolchain, no cloud OCR or speech APIs. | "Read this PDF." · "What's in this deck?" · "Transcribe this talk." · "OCR this scan." |
 | `/flat-prose` | Writing any prose longer than a sentence or two, in chat or in a file. No contrasts, no colons or semicolons or em-dashes, no header sentences, no setup or closers, plain noun headers, one line per paragraph in files. | "Write this straight." · "Cut the fluff." · "Make it succinct and clear." · "No roundabout statements." |
+| `/correct-by-design` | Designing or writing non-trivial code in any language. Parse instead of validate, unrepresentable invalid states, changes back through the checks, checks at trust boundaries, no silent data loss, atomic changes, honest reruns, every check tested, DEBUG logs to `./log/` with a switchable level. | "Make this correct by design." · "Make invalid states impossible." · "Validate the inputs properly." · "Make it robust." |
 
 You can also spawn the subagents directly by name (`analyst`, `tester`, `reviewer`); each runs on its pinned model — e.g. "have an analyst summarize these logs", "send a reviewer over this module".
 
