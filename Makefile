@@ -12,7 +12,7 @@ status:         ## Show which of this repo's links are live in ~/.claude
 	echo "agents:"; ls -l "$$CLAUDE_DIR/agents" 2>/dev/null | grep -- '-> ' || echo "  (none)"; \
 	echo "CLAUDE.md:"; ls -l "$$CLAUDE_DIR/CLAUDE.md" 2>/dev/null || echo "  (none)"
 
-compaction:     ## Opt-in: auto-compact at 80% and reload session.md after compaction (edits ~/.claude/settings.json, keeps a .bak)
+compaction:     ## Opt-in: auto-compact at 80% and reload session.md after compaction or --continue (edits ~/.claude/settings.json, keeps a .bak)
 	@python3 hooks/install-compaction.py
 
 compaction-uninstall: ## Remove the compaction settings added by `make compaction`

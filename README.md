@@ -20,7 +20,7 @@ llm-conf/
 │   ├── flat-prose/SKILL.md   # /flat-prose    - straight prose, no contrasts, colons, or pitch headers; one line per paragraph
 │   ├── checkpoint/SKILL.md   # /checkpoint    - save state, plans, memory and results before compaction
 │   └── correct-by-design/SKILL.md # /correct-by-design - invalid data cannot exist past where it enters; loud, specific failures; DEBUG logs to ./log
-├── hooks/                     # opt-in: `make compaction` adds auto-compact at 80% and a post-compaction reload of session.md
+├── hooks/                     # opt-in: `make compaction` adds auto-compact at 80% and a reload of session.md after compaction or --continue
 └── agents/                    # subagents with a model pinned per role
     ├── analyst.md             # Haiku  — text/language analysis, summarize, classify, scan
     ├── tester.md              # Sonnet — writes/runs tests, tries to break the change

@@ -3,7 +3,8 @@
 
 Adds env CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=80 (auto-compact at 80% of the
 context window; Claude Code only honours values below its default) and a
-SessionStart hook with matcher "compact" that runs session-start-compact.sh.
+SessionStart hook for the "compact" and "resume" matchers that runs
+session-start-compact.sh.
 Keeps every other setting, writes a .bak copy first, and is safe to rerun.
 Run with --uninstall to remove exactly what it added.
 """
@@ -27,6 +28,7 @@ def main() -> None:
     env = data.setdefault("env", {})
     hooks = data.setdefault("hooks", {}).setdefault("SessionStart", [])
     ours = lambda g: any(h.get("command") == HOOK for h in g.get("hooks", []))  # noqa: E731
+    matchers = ("compact", "resume")
     if "--uninstall" in sys.argv:
         if env.get("CLAUDE_AUTOCOMPACT_PCT_OVERRIDE") == PCT:
             env.pop("CLAUDE_AUTOCOMPACT_PCT_OVERRIDE")
@@ -34,9 +36,10 @@ def main() -> None:
         print("removed compaction settings")
     else:
         env["CLAUDE_AUTOCOMPACT_PCT_OVERRIDE"] = PCT
-        if not any(ours(g) for g in hooks):
-            hooks.append({"matcher": "compact", "hooks": [{"type": "command", "command": HOOK}]})
-        print(f"auto-compact at {PCT}%, post-compaction hook {HOOK}")
+        for m in matchers:
+            if not any(ours(g) and g.get("matcher") == m for g in hooks):
+                hooks.append({"matcher": m, "hooks": [{"type": "command", "command": HOOK}]})
+        print(f"auto-compact at {PCT}%, compact and resume hook {HOOK}")
     SETTINGS.write_text(json.dumps(data, indent=2) + "\n")
     print(f"wrote {SETTINGS} (backup {SETTINGS.with_suffix('.json.bak')}); restart Claude Code")
 
