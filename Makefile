@@ -1,19 +1,14 @@
-.PHONY: install uninstall clean status compaction compaction-uninstall
+.PHONY: install uninstall clean status validate
 
-install:        ## Symlink skills, subagents, and CLAUDE.md into ~/.claude
+install:        ## Link global/CLAUDE.md and load this repo as the llm-conf plugin
 	@./install.sh
 
-uninstall clean: ## Remove the symlinks this repo created
+uninstall clean: ## Remove the links this repo created
 	@./install.sh --uninstall
 
-status:         ## Show which of this repo's links are live in ~/.claude
+status:         ## Show this repo's links in ~/.claude
 	@CLAUDE_DIR=$${CLAUDE_CONFIG_DIR:-$$HOME/.claude}; \
-	echo "skills:"; ls -l "$$CLAUDE_DIR/skills" 2>/dev/null | grep -- '-> ' || echo "  (none)"; \
-	echo "agents:"; ls -l "$$CLAUDE_DIR/agents" 2>/dev/null | grep -- '-> ' || echo "  (none)"; \
-	echo "CLAUDE.md:"; ls -l "$$CLAUDE_DIR/CLAUDE.md" 2>/dev/null || echo "  (none)"
+	ls -l "$$CLAUDE_DIR/CLAUDE.md" "$$CLAUDE_DIR/skills/llm-conf" 2>/dev/null || echo "  (not installed)"
 
-compaction:     ## Opt-in: auto-compact at 80% and reload session.md after compaction or --continue (edits ~/.claude/settings.json, keeps a .bak)
-	@python3 hooks/install-compaction.py
-
-compaction-uninstall: ## Remove the compaction settings added by `make compaction`
-	@python3 hooks/install-compaction.py --uninstall
+validate:       ## Check the plugin manifests and skills
+	@claude plugin validate .

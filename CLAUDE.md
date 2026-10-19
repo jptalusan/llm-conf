@@ -1,39 +1,13 @@
-# CLAUDE.md
+# llm-conf maintainer rules
 
-Streamlined operating rules. Merge with project-specific instructions. Bias toward caution over speed; for trivial tasks, use judgment.
+This repo is a Claude Code plugin (`.claude-plugin/plugin.json`) and its own marketplace (`.claude-plugin/marketplace.json`). `global/CLAUDE.md` holds the user's global rules and is linked to `~/.claude/CLAUDE.md` by `make install`. This file only loads for agents working inside this repo.
 
-## 1. Think before coding
-Don't assume, don't hide confusion, surface tradeoffs. State assumptions explicitly; if uncertain, ask. If multiple interpretations exist, present them — don't pick silently. If a simpler approach exists, say so and push back when warranted.
+Skills live in bucket folders under `skills/`: `engineering/` for code work, `productivity/` for workflow and writing, `misc/` for setup helpers. Each skill is a folder with a `SKILL.md`.
 
-## 2. Simplicity first
-Minimum code that solves the problem. No speculative features, no abstractions for single-use code, no configurability that wasn't requested, no error handling for impossible cases. If 200 lines could be 50, rewrite it.
+When you add, remove or rename a skill, update all three places in the same change: the `skills` array in `.claude-plugin/plugin.json`, the skill table in `README.md`, and the typed-only list in `global/CLAUDE.md` section 6 when the skill sets `disable-model-invocation: true`. Then run `claude plugin validate .`. The only expected warning is the one about this root `CLAUDE.md`.
 
-## 3. Surgical changes
-Touch only what you must. Don't refactor what isn't broken, don't restyle adjacent code, match existing style. Remove only the orphans your own change created; mention other dead code, don't delete it. Every changed line should trace to the request.
+Every skill is either typed-only (`disable-model-invocation: true`, reachable only when the user types it) or automatic (no such line, so the agent loads it when a request matches its description). Follow the `writing-for-agents` skill when writing skills or either CLAUDE.md. Text written for people (README, commit messages) follows `flat-prose`.
 
-## 4. Goal-driven execution
-Turn tasks into verifiable goals ("fix the bug" → "write a failing test, then make it pass"). State a short plan with a verify step per item, then loop until verified.
+Skills copied from Matt Pocock's repo keep his wording so his later changes merge cleanly. The README records the upstream commit they came from and `LICENSES/mattpocock-skills.txt` holds his MIT license. When syncing, diff his repo at the new commit against that one and carry over changes by hand, keeping our renames (`setup-repo`) and our edits to `implement`, `code-review` and `handoff`.
 
-## 5. Conserve only when near a usage limit
-By default, do **not** budget — use the session's normal model and effort; quality first. Only when you're near your 5-hour or weekly usage limit, enter conserve mode: downshift model tiers and shrink agent fleets. See the `model-routing` skill. (The pinned-model subagents — `analyst`/`tester`/`reviewer` — keep their role-appropriate models regardless; that's a role default, not budgeting.)
-
-## 6. Verify with a fleet, on request
-For coding / PR / issue fixes, run `/verify-fleet` to spawn independent testers and reviewers (fresh contexts, no groupthink) and synthesize their verdicts. Not automatic — invoke it.
-
-## 7. Write in plain English
-Load the `flat-prose` skill before writing any prose longer than a sentence or two. It holds the full rule set, covering contrasts, punctuation, header sentences, setup and closers, sentence construction, filler, plain noun headers, line wrapping in files, and leading with the claim. It applies to chat replies, docs, notes, reports, commit messages, and code comments.
-
-## 8. Close with a report
-After an implement + test + review cycle, end with the succinct `report` format: what changed, test result, review verdict, follow-ups, and a count of agents involved (by role). Dense, not chatty — no information dropped.
-
-## 9. Correct by design
-Load the `correct-by-design` skill when designing or writing non-trivial code in any language. It covers parsing instead of validating, unrepresentable invalid states, sending every change back through the checks, checking at trust boundaries and trusting inside them, failing early and specifically, never losing data silently, checking the outside world's answers, atomic changes, honest reruns, tests that prove every check fires, and logging at DEBUG by default to `./log/` with the level switchable from outside. It pairs with ponytail, which never removes a boundary check.
-
-## 10. Checkpoint before compaction
-Load the `checkpoint` skill before any compaction, when the context nears 80%, when the user may step away or lose connection, and after launching a long-running job. It writes the newest state to `session.md` at the repo root, updates plans and memory, snapshots edited artifacts, and commits, so a fresh context can resume without the conversation.
-
-## Compact Instructions
-When compacting, keep: the user's goal and preferences stated this session, every finding with its source file, each running job with its machine, log path and completion marker, open decisions awaiting the user, and the next steps in order. Point to `session.md` and the project memory as the record. Drop tool output and file contents that are already on disk.
-
----
-*Behavioral principles 1–4 adapted from Andrej Karpathy's LLM-coding guidelines (MIT).*
+No em dashes in this repo's prose.

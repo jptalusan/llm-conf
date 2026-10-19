@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# Symlink this repo's skills, subagents, and CLAUDE.md into ~/.claude.
-# Re-runnable. Run with --uninstall to remove the symlinks it created.
+# Link this repo into ~/.claude:
+#   ~/.claude/CLAUDE.md          -> global/CLAUDE.md   (always-on rules)
+#   ~/.claude/skills/llm-conf    -> this repo          (loads in place as the llm-conf plugin)
+# Also removes links left by the old per-skill install.
+# Re-runnable. Run with --uninstall to remove the links it created.
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,40 +21,37 @@ link() {  # src dst
 
 unlink_if_ours() {  # dst
   local dst="$1"
-  if [ -L "$dst" ] && [[ "$(readlink "$dst")" == "$REPO"/* ]]; then
+  if [ -L "$dst" ] && [[ "$(readlink "$dst")" == "$REPO"* ]]; then
     rm "$dst"; echo "removed $dst"
   fi
 }
 
+# Links from the old layout: one per skill folder and one per agent.
+for dst in "$CLAUDE_DIR"/skills/* "$CLAUDE_DIR"/agents/*; do
+  [ "$(basename "$dst")" = "llm-conf" ] && continue
+  unlink_if_ours "$dst"
+done
+
 if [ "${1:-}" = "--uninstall" ]; then
-  for dir in "$REPO"/skills/*/;  do unlink_if_ours "$CLAUDE_DIR/skills/$(basename "$dir")"; done
-  for f   in "$REPO"/agents/*.md; do unlink_if_ours "$CLAUDE_DIR/agents/$(basename "$f")"; done
+  unlink_if_ours "$CLAUDE_DIR/skills/llm-conf"
   unlink_if_ours "$CLAUDE_DIR/CLAUDE.md"
   echo "Uninstalled. Restart Claude Code."
   exit 0
 fi
 
-mkdir -p "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents"
+mkdir -p "$CLAUDE_DIR/skills"
+link "$REPO" "$CLAUDE_DIR/skills/llm-conf"
 
-# Skills (one symlink per skill folder)
-for dir in "$REPO"/skills/*/; do
-  link "${dir%/}" "$CLAUDE_DIR/skills/$(basename "$dir")"
-done
-
-# Subagents
-for f in "$REPO"/agents/*.md; do
-  link "$f" "$CLAUDE_DIR/agents/$(basename "$f")"
-done
-
-# Global CLAUDE.md: symlink if none exists, otherwise tell the user to import.
-if [ ! -e "$CLAUDE_DIR/CLAUDE.md" ]; then
-  link "$REPO/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+# Global CLAUDE.md: link if none exists or it is already a link into this repo.
+dst="$CLAUDE_DIR/CLAUDE.md"
+if [ ! -e "$dst" ] && [ ! -L "$dst" ] || { [ -L "$dst" ] && [[ "$(readlink "$dst")" == "$REPO"* ]]; }; then
+  link "$REPO/global/CLAUDE.md" "$dst"
 else
   echo
-  echo "NOTE: $CLAUDE_DIR/CLAUDE.md already exists — not overwriting."
+  echo "NOTE: $dst exists and is not ours, not overwriting it."
   echo "      To include these rules, add this line to it:"
-  echo "          @$REPO/CLAUDE.md"
+  echo "          @$REPO/global/CLAUDE.md"
 fi
 
 echo
-echo "Done. Restart Claude Code (or run /doctor) to pick up new skills/agents."
+echo "Done. Restart Claude Code to load the llm-conf plugin."

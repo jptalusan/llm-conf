@@ -1,0 +1,15 @@
+{
+  "name": "llm-conf",
+  "owner": {
+    "name": "JP Talusan"
+  },
+  "description": "JP Talusan's Claude Code config as an installable plugin.",
+  "plugins": [
+    {
+      "name": "llm-conf",
+      "source": "./",
+      "description": "Personal Claude Code config: grilling before work, plan and implement flows, simple and correct-by-design code, TDD, two-axis code review, handoffs, and a flat-prose writing standard. Builds on Matt Pocock's skills (MIT).",
+      "category": "productivity"
+    }
+  ]
+}
