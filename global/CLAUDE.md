@@ -19,7 +19,7 @@ Load the `correct-by-design` skill when designing or writing non-trivial code. C
 
 ## 6. Typed-only skills
 These skills run only when the user types them, so tell the user when one fits and wait for them to type it.
-- `/llm-conf:plan` before non-trivial code. It grills, then writes a reviewed `*_PLAN.md`.
+- `/llm-conf:plan` before non-trivial code. It grills, then writes a reviewed `*_PLAN.md`. Never plan through Claude Code's plan mode or the `Plan` agent. When planning comes up, ask the user to type `/llm-conf:plan`. If plan mode is on, ask the user to exit it (Shift+Tab) and type `/llm-conf:plan`, since plan mode cannot write the plan file.
 - `/implement` once a plan or spec is approved. When the user says "go ahead" on a plan, answer "Type `/implement` to build it" and wait.
 - `/handoff` when the user is stepping away, the session has run long, or work passes to another agent.
 - `/grill-me` to stress-test an idea with no code, and `/grill-with-docs` to do the same while recording a glossary and ADRs.
