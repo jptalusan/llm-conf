@@ -58,7 +58,7 @@ Typed skills run only when you type them, and the agent suggests them when they 
 | `report` | automatic | End-of-task summary with files, checks, review rounds and agent count |
 | `model-routing` | automatic | Cheaper models only when near a usage limit |
 | `markitdown` | automatic | Read PDF, Office, image, audio and video files with local tools |
-| `git-guardrails` | automatic | Install a hook that blocks `git push`, `reset --hard` and other destructive commands |
+| `git-guardrails` | automatic | Add permission rules that ask you before `git push`, `reset --hard` and other destructive commands |
 
 The `analyst` agent runs on Haiku for cheap scans and summaries. The `reviewer` agent runs on Opus and does the reviews in `plan` and `code-review`.
 
