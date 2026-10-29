@@ -35,9 +35,9 @@ The plan is complete: every step needed to finish is in it, and nothing is defer
 
 ## 3. Review loop
 
-1. Spawn two `reviewer` agents in parallel. Give each the plan path, the problem summary and the code it touches, and ask for actionable improvements against the rules above.
+1. Spawn two `reviewer` agents in parallel, one on the agent's default model and one with the model set to `sonnet`, so the two miss different things. Give each the plan path, the problem summary and the code it touches, and ask for actionable improvements against the rules above.
 2. Apply every actionable finding to the plan.
-3. Spawn two fresh `reviewer` agents on the updated plan.
+3. Spawn two fresh `reviewer` agents on the updated plan, with the same model mix.
 4. Repeat until a round returns only nits. A nit is anything a competent implementer would do or know unprompted; fold it in when cheap, but it never triggers another round. If round 3 still has real findings, stop and put them to the user.
 
 When a finding is one instance of a class of mistake, fix every instance of the class, then report the class.

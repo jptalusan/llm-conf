@@ -24,5 +24,5 @@ There is **no reliable in-session read of remaining quota** — don't guess a nu
   | Summarize, classify, extract, scan, language/text analysis, mechanical edits | Haiku |
   | Standard implementation, writing/running tests, routine refactors | Haiku (Sonnet only if it stalls) |
   | Hard reasoning, deep review, security, architecture | Sonnet (Opus only if critical) |
-- **Shrink fleets:** `plan` and `code-review` reviewers run on Sonnet instead of Opus.
+- **Shrink fleets:** every `plan` and `code-review` reviewer runs on Sonnet, including the ones that normally use the `reviewer` agent's Opus default.
 - **Announce** when you enter or leave conserve mode so the user knows the quality/cost tradeoff in effect.
