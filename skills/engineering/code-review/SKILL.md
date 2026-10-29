@@ -58,7 +58,7 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 ### 4. Spawn both sub-agents in parallel
 
-Issue both sub-agent calls together, in the foreground, each as the `reviewer` agent, and aggregate the reports they return.
+Issue both sub-agent calls together, in the foreground, each as the `reviewer` agent, and aggregate the reports they return. Run the Standards sub-agent with the model set to `sonnet`, since matching code against written rules needs less reasoning. The Spec sub-agent keeps the agent's default model.
 
 **Standards sub-agent prompt** should include:
 
